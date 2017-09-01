@@ -37,7 +37,6 @@ const writeToFile = (employeeOb) => {
 const getFile = (filePath) => {
   return fs.readFileSync(filePath)
 }
-// TODO ???
 
 module.exports = {
   Employee
