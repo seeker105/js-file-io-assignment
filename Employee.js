@@ -11,32 +11,30 @@ class Employee {
   }
 
   static parseFromFilePath(filePath) {
-    let rawData = getFile(filePath)
-    let dataOb = JSON.parse(rawData)
-    let newEmployee = new Employee(dataOb, filePath)
-    return newEmployee
+    let dataOb = getObject(filePath)
+    return new Employee(dataOb, filePath)
   }
 
   promote (titles, raise) {
     let titleArray = titles.split(' ')
     let index = titleArray.indexOf(this.title)
     if (index > 0)
-      index = index-1
-    this.title = titleArray[index]
+      this.title = titleArray[index-1]
     this.salary += raise
-    writeToFile(this)
+    writeObject(this)
   }
-
 }
 
-const writeToFile = (employeeOb) => {
+const writeObject = (employeeOb) => {
   let rawData = JSON.stringify(employeeOb, ['name', 'title', 'salary'])
   fs.writeFileSync(employeeOb.filePath, rawData)
 }
-
-const getFile = (filePath) => {
-  return fs.readFileSync(filePath)
+  
+const getObject = (filePath) => {
+   let rawData = fs.readFileSync(filePath)
+   return JSON.parse(rawData)
 }
+
 
 module.exports = {
   Employee
